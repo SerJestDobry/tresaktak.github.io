@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Słownik PL → DE</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.suggestions {
+    margin-top: 5px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.suggestion-item {
+    padding: 12px;
+    background: #f9f9f9;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+}
+
+.suggestion-item:hover {
+    background: #e0f7ff;
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 22px;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 20px;
+    }
+    input {
+        font-size: 16px;
+    }
+    .result {
+        font-size: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Mini Słownik PL → DE 🔊</h1>
+
+<input type="text" id="searchInput" placeholder="Wpisz słowo..."
+       oninput="showSuggestions()"
+       onkeydown="handleEnter(event)">
+
+<div id="suggestions" class="suggestions"></div>
+<div id="result" class="result"></div>
+</div>
+
+<script>
+
+const dictionary = {
+    "test": "der Test",
+    "telefon": "das Telefon",
+    "talerz": "der Teller",
+    "dom": "das Haus",
+    "kot": "die Katze",
+    "pies": "der Hund",
+    "szkoła": "die Schule",
+    "samochód": "das Auto"
+};
+
+function showSuggestions() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const suggestionsDiv = document.getElementById("suggestions");
+    suggestionsDiv.innerHTML = "";
+
+    if(input.length === 0) return;
+
+    const matches = Object.keys(dictionary).filter(word =>
+        word.startsWith(input)
+    );
+
+    matches.forEach(word => {
+        const div = document.createElement("div");
+        div.textContent = word + " - " + dictionary[word];
+        div.classList.add("suggestion-item");
+
+        div.onclick = function() {
+            selectWord(word);
+        };
+
+        suggestionsDiv.appendChild(div);
+    });
+}
+
+function selectWord(word) {
+    document.getElementById("searchInput").value = word;
+    document.getElementById("suggestions").innerHTML = "";
+    showResult(word);
+    speak(dictionary[word]); // 🔊 mówi od razu
+}
+
+function showResult(word) {
+    const resultDiv = document.getElementById("result");
+    resultDiv.textContent = word + " - " + dictionary[word];
+
+    resultDiv.onclick = function() {
+        speak(dictionary[word]); // 🔊 mówi po kliknięciu w wynik
+    };
+}
+
+function handleEnter(event) {
+    if(event.key === "Enter") {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        if(dictionary[input]) {
+            selectWord(input); // 🔊 też mówi po Enter
+        }
+    }
+}
+
+function speak(text) {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "de-DE";
+    speech.rate = 1;
+    speech.pitch = 1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(speech);
+}
+
+</script>
+
+</body>
+</html>
