@@ -216,7 +216,7 @@ function handleEnter(event) {
 function speak(text) {
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = "de-DE";
-    speech.rate = 1;
+    speech.rate = 0.85;
     speech.pitch = 1;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(speech);
