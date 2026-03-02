@@ -18,7 +18,7 @@ body {
 .container {
     background: white;
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
@@ -66,16 +66,11 @@ input {
     cursor: pointer;
 }
 
-@media (max-width: 480px) {
-    h1 {
-        font-size: 20px;
-    }
-    input {
-        font-size: 16px;
-    }
-    .result {
-        font-size: 18px;
-    }
+.footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
 }
 </style>
 </head>
@@ -83,7 +78,7 @@ input {
 <body>
 
 <div class="container">
-<h1>Mini Słownik PL → DE 🔊</h1>
+<h1>Słownik medyczny PL → DE 🔊</h1>
 
 <input type="text" id="searchInput" placeholder="Wpisz słowo..."
        oninput="showSuggestions()"
@@ -91,19 +86,82 @@ input {
 
 <div id="suggestions" class="suggestions"></div>
 <div id="result" class="result"></div>
+
+<div class="footer">Kliknij wynik aby odsłuchać wymowę 🇩🇪</div>
 </div>
 
 <script>
 
 const dictionary = {
-    "test": "der Test",
-    "telefon": "das Telefon",
-    "talerz": "der Teller",
-    "dom": "das Haus",
-    "kot": "die Katze",
-    "pies": "der Hund",
-    "szkoła": "die Schule",
-    "samochód": "das Auto"
+
+"ręka":"der Arm",
+"oko":"das Auge",
+"brzuch":"der Bauch",
+"noga":"das Bein",
+"pierś":"die Brust",
+"palec":"der Finger",
+"stopa":"der Fuß",
+"włosy":"das Haar",
+"szyja":"der Hals",
+"dłoń":"die Hand",
+"kolano":"das Knie",
+"głowa":"der Kopf",
+"ciało":"der Körper",
+"usta":"der Mund",
+"nos":"die Nase",
+"ucho":"das Ohr",
+"plecy":"der Rücken",
+"ząb":"der Zahn",
+
+"angina":"die Angina",
+"gorączka":"das Fieber",
+"grypa":"die Grippe",
+"kaszel":"der Husten",
+"problem ze snem":"die Schlafstörung",
+"ból":"der Schmerz",
+"ból brzucha":"Bauchschmerzen",
+"ból głowy":"Kopfschmerzen",
+"ból ucha":"Ohrenschmerzen",
+"katar":"der Schnupfen",
+"oparzenie słoneczne":"der Sonnenbrand",
+"udar słoneczny":"der Sonnenstich",
+
+"oddychać":"atmen",
+"leczyć":"behandeln",
+"łykać":"schlucken",
+"mieć nadzieję":"hoffen",
+"kaszleć":"husten",
+"wystawiać zwolnienie":"krankschreiben",
+"wietrzyć":"lüften",
+"badać":"untersuchen",
+"zapomnieć":"vergessen",
+"zmartwiony":"vermutlich",
+"zalecać":"verordnen",
+"przepisywać":"verschreiben",
+"boleć":"wehtun",
+
+"pilny":"dringend",
+"przeziębiony":"erkältet",
+"zdrowy":"gesund",
+"chory":"krank",
+"słaby":"schwach",
+"zadowolony":"zufrieden",
+
+"antybiotyk":"das Antibiotikum",
+"gabinet lekarski":"die Arztpraxis",
+"termin u lekarza":"der Termin beim Arzt",
+"obywatel ue":"der EU-Bürger",
+"karta ubezpieczenia zdrowotnego":"die Krankenversicherungskarte",
+"zwolnienie lekarskie":"die Krankschreibung",
+"masaż":"die Massage",
+"lek":"das Medikament",
+"nagły wypadek":"der Notfall",
+"numer alarmowy":"die Notrufnummer",
+"recepta":"das Rezept",
+"maść":"die Salbe",
+"tabletka przeciwbólowa":"die Schmerztablette",
+"badanie":"die Untersuchung",
+"syrop na kaszel":"der Hustensirup"
 };
 
 function showSuggestions() {
@@ -114,7 +172,7 @@ function showSuggestions() {
     if(input.length === 0) return;
 
     const matches = Object.keys(dictionary).filter(word =>
-        word.startsWith(input)
+        word.includes(input)
     );
 
     matches.forEach(word => {
@@ -134,7 +192,7 @@ function selectWord(word) {
     document.getElementById("searchInput").value = word;
     document.getElementById("suggestions").innerHTML = "";
     showResult(word);
-    speak(dictionary[word]); // 🔊 mówi od razu
+    speak(dictionary[word]);
 }
 
 function showResult(word) {
@@ -142,7 +200,7 @@ function showResult(word) {
     resultDiv.textContent = word + " - " + dictionary[word];
 
     resultDiv.onclick = function() {
-        speak(dictionary[word]); // 🔊 mówi po kliknięciu w wynik
+        speak(dictionary[word]);
     };
 }
 
@@ -150,7 +208,7 @@ function handleEnter(event) {
     if(event.key === "Enter") {
         const input = document.getElementById("searchInput").value.toLowerCase();
         if(dictionary[input]) {
-            selectWord(input); // 🔊 też mówi po Enter
+            selectWord(input);
         }
     }
 }
