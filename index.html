@@ -218,16 +218,22 @@ const dictionary = {
     "przychodzić na kontrolę": "zur Kontrolle kommen"
 };
 
+function normalizeText(text) {
+    return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
+
 function showSuggestions() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
+    const input = normalizeText(document.getElementById("searchInput").value);
     const suggestionsDiv = document.getElementById("suggestions");
     suggestionsDiv.innerHTML = "";
 
     if(input.length === 0) return;
 
-    // Filtrowanie po kluczach (polskich słowach)
     const matches = Object.keys(dictionary).filter(word =>
-        word.toLowerCase().includes(input)
+        normalizeText(word).includes(input)
     );
 
     matches.forEach(word => {
@@ -261,9 +267,12 @@ function showResult(word) {
 
 function handleEnter(event) {
     if(event.key === "Enter") {
-        const input = document.getElementById("searchInput").value.toLowerCase();
-        // Szukanie dokładnego dopasowania lub pierwszego pasującego
-        const match = Object.keys(dictionary).find(key => key.toLowerCase() === input);
+        const input = normalizeText(document.getElementById("searchInput").value);
+
+        const match = Object.keys(dictionary).find(key =>
+            normalizeText(key) === input
+        );
+
         if(match) {
             selectWord(match);
         }
