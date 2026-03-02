@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Słownik PL → DE</title>
+<title>Słownik Medyczny PL → DE</title>
 
 <style>
 body {
@@ -26,6 +26,7 @@ body {
 
 h1 {
     text-align: center;
+    color: #333;
 }
 
 input {
@@ -35,6 +36,11 @@ input {
     border-radius: 10px;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    outline: none;
+}
+
+input:focus {
+    border-color: #4facfe;
 }
 
 .suggestions {
@@ -63,7 +69,13 @@ input {
     padding: 15px;
     border-radius: 10px;
     background: #f1f1f1;
+    min-height: 40px;
     cursor: pointer;
+    transition: background 0.3s;
+}
+
+.result:active {
+    background: #dcdcdc;
 }
 
 .footer {
@@ -78,90 +90,132 @@ input {
 <body>
 
 <div class="container">
-<h1>Słownik medyczny PL → DE 🔊</h1>
+    <h1>Słownik medyczny PL → DE 🔊</h1>
 
-<input type="text" id="searchInput" placeholder="Wpisz słowo..."
-       oninput="showSuggestions()"
-       onkeydown="handleEnter(event)">
+    <input type="text" id="searchInput" placeholder="Wpisz słowo po polsku (np. ręka, ból)..."
+           oninput="showSuggestions()"
+           onkeydown="handleEnter(event)">
 
-<div id="suggestions" class="suggestions"></div>
-<div id="result" class="result"></div>
+    <div id="suggestions" class="suggestions"></div>
+    <div id="result" class="result"></div>
 
-<div class="footer">Kliknij wynik aby odsłuchać wymowę 🇩🇪</div>
+    <div class="footer">Kliknij wynik, aby odsłuchać wymowę 🇩🇪</div>
 </div>
 
 <script>
-
 const dictionary = {
-
-"ręka":"der Arm",
-"oko":"das Auge",
-"brzuch":"der Bauch",
-"noga":"das Bein",
-"pierś":"die Brust",
-"palec":"der Finger",
-"stopa":"der Fuß",
-"włosy":"das Haar",
-"szyja":"der Hals",
-"dłoń":"die Hand",
-"kolano":"das Knie",
-"głowa":"der Kopf",
-"ciało":"der Körper",
-"usta":"der Mund",
-"nos":"die Nase",
-"ucho":"das Ohr",
-"plecy":"der Rücken",
-"ząb":"der Zahn",
-
-"angina":"die Angina",
-"gorączka":"das Fieber",
-"grypa":"die Grippe",
-"kaszel":"der Husten",
-"problem ze snem":"die Schlafstörung",
-"ból":"der Schmerz",
-"ból brzucha":"Bauchschmerzen",
-"ból głowy":"Kopfschmerzen",
-"ból ucha":"Ohrenschmerzen",
-"katar":"der Schnupfen",
-"oparzenie słoneczne":"der Sonnenbrand",
-"udar słoneczny":"der Sonnenstich",
-
-"oddychać":"atmen",
-"leczyć":"behandeln",
-"łykać":"schlucken",
-"mieć nadzieję":"hoffen",
-"kaszleć":"husten",
-"wystawiać zwolnienie":"krankschreiben",
-"wietrzyć":"lüften",
-"badać":"untersuchen",
-"zapomnieć":"vergessen",
-"zmartwiony":"vermutlich",
-"zalecać":"verordnen",
-"przepisywać":"verschreiben",
-"boleć":"wehtun",
-
-"pilny":"dringend",
-"przeziębiony":"erkältet",
-"zdrowy":"gesund",
-"chory":"krank",
-"słaby":"schwach",
-"zadowolony":"zufrieden",
-
-"antybiotyk":"das Antibiotikum",
-"gabinet lekarski":"die Arztpraxis",
-"termin u lekarza":"der Termin beim Arzt",
-"obywatel ue":"der EU-Bürger",
-"karta ubezpieczenia zdrowotnego":"die Krankenversicherungskarte",
-"zwolnienie lekarskie":"die Krankschreibung",
-"masaż":"die Massage",
-"lek":"das Medikament",
-"nagły wypadek":"der Notfall",
-"numer alarmowy":"die Notrufnummer",
-"recepta":"das Rezept",
-"maść":"die Salbe",
-"tabletka przeciwbólowa":"die Schmerztablette",
-"badanie":"die Untersuchung",
-"syrop na kaszel":"der Hustensirup"
+    "ręka": "der Arm",
+    "oko": "das Auge",
+    "brzuch": "der Bauch",
+    "noga": "das Bein",
+    "klatka piersiowa": "die Brust",
+    "palec (u ręki)": "der Finger",
+    "stopa": "der Fuß",
+    "włos": "das Haar",
+    "szyja, gardło": "der Hals",
+    "dłoń": "die Hand",
+    "kolano": "das Knie",
+    "głowa": "der Kopf",
+    "ciało": "der Körper",
+    "usta": "der Mund",
+    "nos": "die Nase",
+    "ucho": "das Ohr",
+    "pupa": "der Po",
+    "plecy": "der Rücken",
+    "ząb": "der Zahn",
+    "palec u nogi": "die Zehe",
+    "angina": "die Angina",
+    "gorączka": "das Fieber",
+    "grypa": "die Grippe",
+    "kaszel": "der Husten",
+    "problem ze snem": "die Schlafstörung",
+    "ból": "der Schmerz",
+    "bóle brzucha": "Bauchschmerzen",
+    "bóle głowy": "Kopfschmerzen",
+    "bóle uszu": "Ohrenschmerzen",
+    "katar": "der Schnupfen",
+    "poparzenie słoneczne": "der Sonnenbrand",
+    "porażenie słoneczne": "der Sonnenstich",
+    "oglądać": "(sich) anschauen",
+    "oddychać": "atmen",
+    "leczyć": "behandeln",
+    "leczyć pacjentów": "Patienten behandeln",
+    "przyjmować": "einnehmen",
+    "patrzeć": "gucken",
+    "mieć nadzieję": "hoffen",
+    "kaszleć": "husten",
+    "wystawiać zwolnienie lekarskie": "krankschreiben",
+    "wietrzyć": "lüften",
+    "badać": "untersuchen",
+    "zapominać": "vergessen",
+    "przypuszczać": "vermuten",
+    "zalecać": "verordnen",
+    "przepisywać": "verschreiben",
+    "przepisywać leki": "Medikamente verschreiben",
+    "boleć": "wehtun",
+    "zwracać się do": "sich wenden an",
+    "pilny, pilnie": "dringend",
+    "przeziębiony": "erkältet",
+    "zdrowy": "gesund",
+    "chory": "krank",
+    "słaby": "schwach",
+    "zadowolony": "zufrieden",
+    "pojęcie": "die Ahnung",
+    "nie mam pojęcia": "Ich habe keine Ahnung.",
+    "antybiotyk": "das Antibiotikum",
+    "gabinet lekarski": "die Arztpraxis",
+    "być u lekarza": "beim Arzt sein",
+    "pogotowie górskie": "die Bergwacht",
+    "poprawa": "die Besserung",
+    "szybkiego powrotu do zdrowia!": "Gute Besserung!",
+    "leżenie w łóżku": "die Bettruhe",
+    "zalecić leżenie w łóżku": "Bettruhe verordnen",
+    "ruch": "die Bewegung",
+    "umówić wizytę u lekarza": "einen Termin beim Arzt machen",
+    "obywatel ue": "der EU-Bürger",
+    "być bardzo zmęczonym": "fix und fertig sein",
+    "potrzebować świeżego powietrza": "frische Luft brauchen",
+    "tracić cierpliwość": "die Geduld verlieren",
+    "spójrz tutaj!": "Guck mal hier!",
+    "martwię się": "Ich mache mir Sorgen.",
+    "ubezpieczenie zdrowotne": "die Krankenversicherung",
+    "karta ubezpieczenia zdrowotnego": "die Krankenversicherungskarte",
+    "zwolnienie lekarskie": "die Krankschreibung",
+    "nie martw się!": "Mach dir keine Sorgen!",
+    "masaż": "die Massage",
+    "lekarstwo": "das Medikament",
+    "otworzyć usta": "den Mund aufmachen",
+    "krople do nosa": "die Nasentropfen",
+    "izba przyjęć": "die Notaufnahme",
+    "nagły wypadek": "der Notfall",
+    "numer alarmowy": "die Notrufnummer",
+    "rozebrać się do pasa": "den Oberkörper frei machen",
+    "przepisywać krople do uszu": "Ohrentropfen verschreiben",
+    "potrzebować profesjonalnej pomocy": "professionelle Hilfe brauchen",
+    "karetka pogotowia": "der Rettungswagen",
+    "recepta": "das Rezept",
+    "zdjęcie rentgenowskie": "die Röntgenaufnahme",
+    "maść": "die Salbe",
+    "tabletka przeciwbólowa": "die Schmerztablette",
+    "ratownictwo morskie": "die Seenotrettung",
+    "od kiedy?": "Seit wann?",
+    "od tygodnia": "seit einer Woche",
+    "od miesiąca": "seit einem Monat",
+    "od roku": "seit einem Jahr",
+    "syrop przeciwkaszlowy": "Sirup gegen Husten",
+    "badanie": "die Untersuchung",
+    "co ci dolega?": "Was fehlt dir?",
+    "co panu/pani dolega?": "Was fehlt Ihnen?",
+    "co ci jest?": "Was hast du denn?",
+    "co mam zrobić?": "Was soll ich tun?",
+    "co cię boli?": "Was tut dir weh?",
+    "co pana/panią boli?": "Was tut Ihnen weh?",
+    "boli mnie głowa": "Der Kopf tut mir weh.",
+    "bolą mnie nogi": "Die Beine tun mir weh.",
+    "jak się czujesz?": "Wie fühlst du dich?",
+    "jak się pan/pani czuje?": "Wie fühlen Sie sich?",
+    "iść do lekarza": "zum Arzt gehen",
+    "przychodzić na kontrolę": "zur Kontrolle kommen"
 };
 
 function showSuggestions() {
@@ -171,13 +225,14 @@ function showSuggestions() {
 
     if(input.length === 0) return;
 
+    // Filtrowanie po kluczach (polskich słowach)
     const matches = Object.keys(dictionary).filter(word =>
-        word.includes(input)
+        word.toLowerCase().includes(input)
     );
 
     matches.forEach(word => {
         const div = document.createElement("div");
-        div.textContent = word + " - " + dictionary[word];
+        div.textContent = word;
         div.classList.add("suggestion-item");
 
         div.onclick = function() {
@@ -197,7 +252,7 @@ function selectWord(word) {
 
 function showResult(word) {
     const resultDiv = document.getElementById("result");
-    resultDiv.textContent = word + " - " + dictionary[word];
+    resultDiv.textContent = dictionary[word]; // Wyświetla tylko niemieckie tłumaczenie
 
     resultDiv.onclick = function() {
         speak(dictionary[word]);
@@ -207,8 +262,10 @@ function showResult(word) {
 function handleEnter(event) {
     if(event.key === "Enter") {
         const input = document.getElementById("searchInput").value.toLowerCase();
-        if(dictionary[input]) {
-            selectWord(input);
+        // Szukanie dokładnego dopasowania lub pierwszego pasującego
+        const match = Object.keys(dictionary).find(key => key.toLowerCase() === input);
+        if(match) {
+            selectWord(match);
         }
     }
 }
@@ -216,12 +273,11 @@ function handleEnter(event) {
 function speak(text) {
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = "de-DE";
-    speech.rate = 0.85;
+    speech.rate = 0.9;
     speech.pitch = 1;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(speech);
 }
-
 </script>
 
 </body>
