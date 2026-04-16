@@ -91,11 +91,6 @@ input:focus {
     background: #f1f1f1;
     min-height: 40px;
     cursor: pointer;
-    transition: background 0.3s;
-}
-
-.result:active {
-    background: #dcdcdc;
 }
 
 .footer {
@@ -114,7 +109,7 @@ input:focus {
 
     <div class="search-box">
         <input type="text" id="searchInput"
-        placeholder="Wpisz słowo po polsku (np. ręka, ból)..."
+        placeholder="Wpisz zdanie po polsku..."
         oninput="showSuggestions()"
         onkeydown="handleEnter(event)">
 
@@ -130,118 +125,20 @@ input:focus {
 <script>
 
 const dictionary = {
-"ręka": "der Arm",
-"oko": "das Auge",
-"brzuch": "der Bauch",
-"noga": "das Bein",
-"klatka piersiowa": "die Brust",
-"palec (u ręki)": "der Finger",
-"stopa": "der Fuß",
-"włos": "das Haar",
-"szyja, gardło": "der Hals",
-"dłoń": "die Hand",
-"kolano": "das Knie",
-"głowa": "der Kopf",
-"ciało": "der Körper",
-"usta": "der Mund",
-"nos": "die Nase",
-"ucho": "das Ohr",
-"pupa": "der Po",
-"plecy": "der Rücken",
-"ząb": "der Zahn",
-"palec u nogi": "die Zehe",
-"angina": "die Angina",
-"gorączka": "das Fieber",
-"grypa": "die Grippe",
-"kaszel": "der Husten",
-"problem ze snem": "die Schlafstörung",
-"ból": "der Schmerz",
-"bóle brzucha": "Bauchschmerzen",
-"bóle głowy": "Kopfschmerzen",
-"bóle uszu": "Ohrenschmerzen",
-"katar": "der Schnupfen",
-"poparzenie słoneczne": "der Sonnenbrand",
-"porażenie słoneczne": "der Sonnenstich",
-"oglądać": "(sich) anschauen",
-"oddychać": "atmen",
-"leczyć": "behandeln",
-"leczyć pacjentów": "Patienten behandeln",
-"przyjmować": "einnehmen",
-"patrzeć": "gucken",
-"mieć nadzieję": "hoffen",
-"kaszleć": "husten",
-"wystawiać zwolnienie lekarskie": "krankschreiben",
-"wietrzyć": "lüften",
-"badać": "untersuchen",
-"zapominać": "vergessen",
-"przypuszczać": "vermuten",
-"zalecać": "verordnen",
-"przepisywać": "verschreiben",
-"przepisywać leki": "Medikamente verschreiben",
-"boleć": "wehtun",
-"zwracać się do": "sich wenden an",
-"pilny, pilnie": "dringend",
-"przeziębiony": "erkältet",
-"zdrowy": "gesund",
-"chory": "krank",
-"słaby": "schwach",
-"zadowolony": "zufrieden",
-"pojęcie": "die Ahnung",
-"nie mam pojęcia": "Ich habe keine Ahnung.",
-"antybiotyk": "das Antibiotikum",
-"gabinet lekarski": "die Arztpraxis",
-"być u lekarza": "beim Arzt sein",
-"pogotowie górskie": "die Bergwacht",
-"poprawa": "die Besserung",
-"szybkiego powrotu do zdrowia!": "Gute Besserung!",
-"leżenie w łóżku": "die Bettruhe",
-"zalecić leżenie w łóżku": "Bettruhe verordnen",
-"ruch": "die Bewegung",
-"umówić wizytę u lekarza": "einen Termin beim Arzt machen",
-"obywatel ue": "der EU-Bürger",
-"być bardzo zmęczonym": "fix und fertig sein",
-"potrzebować świeżego powietrza": "frische Luft brauchen",
-"tracić cierpliwość": "die Geduld verlieren",
-"spójrz tutaj!": "Guck mal hier!",
-"martwię się": "Ich mache mir Sorgen.",
-"ubezpieczenie zdrowotne": "die Krankenversicherung",
-"karta ubezpieczenia zdrowotnego": "die Krankenversicherungskarte",
-"zwolnienie lekarskie": "die Krankschreibung",
-"nie martw się!": "Mach dir keine Sorgen!",
-"masaż": "die Massage",
-"lekarstwo": "das Medikament",
-"otworzyć usta": "den Mund aufmachen",
-"krople do nosa": "die Nasentropfen",
-"izba przyjęć": "die Notaufnahme",
-"nagły wypadek": "der Notfall",
-"numer alarmowy": "die Notrufnummer",
-"rozebrać się do pasa": "den Oberkörper frei machen",
-"przepisywać krople do uszu": "Ohrentropfen verschreiben",
-"potrzebować profesjonalnej pomocy": "professionelle Hilfe brauchen",
-"karetka pogotowia": "der Rettungswagen",
-"recepta": "das Rezept",
-"zdjęcie rentgenowskie": "die Röntgenaufnahme",
-"maść": "die Salbe",
-"tabletka przeciwbólowa": "die Schmerztablette",
-"ratownictwo morskie": "die Seenotrettung",
-"od kiedy?": "Seit wann?",
-"od tygodnia": "seit einer Woche",
-"od miesiąca": "seit einem Monat",
-"od roku": "seit einem Jahr",
-"syrop przeciwkaszlowy": "Sirup gegen Husten",
-"badanie": "die Untersuchung",
-"co ci dolega?": "Was fehlt dir?",
-"co panu/pani dolega?": "Was fehlt Ihnen?",
-"co ci jest?": "Was hast du denn?",
-"co mam zrobić?": "Was soll ich tun?",
-"co cię boli?": "Was tut dir weh?",
-"co pana/panią boli?": "Was tut Ihnen weh?",
-"boli mnie głowa": "Der Kopf tut mir weh.",
-"bolą mnie nogi": "Die Beine tun mir weh.",
-"jak się czujesz?": "Wie fühlst du dich?",
-"jak się pan/pani czuje?": "Wie fühlen Sie sich?",
-"iść do lekarza": "zum Arzt gehen",
-"przychodzić na kontrolę": "zur Kontrolle kommen"
+"proszę otworzyć buzię": "Machen Sie bitte den Mund auf",
+"coś pana boli": "Tut Ihnen etwas weh?",
+"proszę wziąć głęboki wdech i wydech": "Atmen Sie bitte tief ein und aus",
+"proszę rozebrać się do pasa": "Machen Sie bitte den Oberkörper frei",
+"przepiszę pani antybiotyk": "Ich verschreibe Ihnen ein Antibiotikum",
+"proszę zakaszleć": "Husten Sie bitte",
+"ma pani gorączkę": "Sie haben Fieber",
+"tutaj jest pani zwolnienie lekarskie": "Hier ist Ihre Krankschreibung",
+
+"źle się czuję": "Ich fühle mich schlecht",
+"co mi dolega": "Was fehlt mir?",
+"boli mnie też gardło i mam kaszel": "Ich habe auch Halsschmerzen und Husten",
+"mam przyjść do lekarza": "Soll ich zum Arzt kommen?",
+"jak często powinienem zażyć antybiotyk": "Wie oft soll ich das Antibiotikum einnehmen?"
 };
 
 function normalizeText(text) {
