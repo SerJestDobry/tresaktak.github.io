@@ -108,11 +108,11 @@ input:focus {
     <h1>Słownik medyczny PL → DE 🔊</h1>
 
     <div class="search-box">
-        <input type="text" id="searchInput"
-        placeholder="Wpisz zdanie po polsku..."
-        oninput="showSuggestions()"
+        <input type="text" id="searchInput" 
+        placeholder="Wpisz zdanie po polsku..." 
+        oninput="showSuggestions()" 
         onkeydown="handleEnter(event)">
-
+        
         <button id="clearBtn" onclick="clearSearch()">✖</button>
     </div>
 
@@ -125,6 +125,7 @@ input:focus {
 <script>
 
 const dictionary = {
+// Podstawowe zwroty
 "proszę otworzyć buzię": "Machen Sie bitte den Mund auf",
 "coś pana boli": "Tut Ihnen etwas weh?",
 "proszę wziąć głęboki wdech i wydech": "Atmen Sie bitte tief ein und aus",
@@ -133,113 +134,97 @@ const dictionary = {
 "proszę zakaszleć": "Husten Sie bitte",
 "ma pani gorączkę": "Sie haben Fieber",
 "tutaj jest pani zwolnienie lekarskie": "Hier ist Ihre Krankschreibung",
-
 "źle się czuję": "Ich fühle mich schlecht",
 "co mi dolega": "Was fehlt mir?",
 "boli mnie też gardło i mam kaszel": "Ich habe auch Halsschmerzen und Husten",
 "mam przyjść do lekarza": "Soll ich zum Arzt kommen?",
 "jak często powinienem zażyć antybiotyk": "Wie oft soll ich das Antibiotikum einnehmen?",
-
 "od kiedy źle się czujesz": "Seit wann fühlst du dich schlecht?",
 "muszę brać leki 3 razy dziennie": "Ich muss die Medikamente dreimal täglich einnehmen",
 "mam kaszel i katar": "Ich habe Husten und Schnupfen",
-"przepiszę panu lekarstwa": "Ich verschreibe Ihnen Medikamente"
+"przepiszę panu lekarstwa": "Ich verschreibe Ihnen Medikamente",
+
+// Dodane ze screenów
+"proszę się rozebrać": "Bitte machen Sie den Oberkörper frei",
+"proszę oddychać głęboko": "Bitte atmen Sie tief ein",
+"jak długo powinienem leżeć w łóżku": "Wie lange sollte ich Bettruhe haben",
+"kiedy powinienem przyjsć do kontroli": "Wann sollte ich zur Kontrolle kommen",
+"proszę powiedzieć a": "Bitte sagen Sie „a“",
+"czy ma pan gorączkę": "Haben Sie Fieber",
+"mam gorączkę": "Ich habe Fieber"
 };
 
 function normalizeText(text) {
-return text
-.toLowerCase()
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g, "");
+    return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
 function showSuggestions() {
+    const input = normalizeText(document.getElementById("searchInput").value);
+    const suggestionsDiv = document.getElementById("suggestions");
+    suggestionsDiv.innerHTML = "";
 
-const input = normalizeText(document.getElementById("searchInput").value);
-const suggestionsDiv = document.getElementById("suggestions");
-suggestionsDiv.innerHTML = "";
+    if(input.length === 0) return;
 
-if(input.length === 0) return;
+    const matches = Object.keys(dictionary).filter(word => 
+        normalizeText(word).includes(input)
+    );
 
-const matches = Object.keys(dictionary).filter(word =>
-normalizeText(word).includes(input)
-);
-
-matches.forEach(word => {
-
-const div = document.createElement("div");
-div.textContent = word;
-div.classList.add("suggestion-item");
-
-div.onclick = function() {
-selectWord(word);
-};
-
-suggestionsDiv.appendChild(div);
-
-});
+    matches.forEach(word => {
+        const div = document.createElement("div");
+        div.textContent = word;
+        div.classList.add("suggestion-item");
+        div.onclick = function() {
+            selectWord(word);
+        };
+        suggestionsDiv.appendChild(div);
+    });
 }
 
 function selectWord(word) {
-
-document.getElementById("searchInput").value = word;
-document.getElementById("suggestions").innerHTML = "";
-
-showResult(word);
-speak(dictionary[word]);
-
+    document.getElementById("searchInput").value = word;
+    document.getElementById("suggestions").innerHTML = "";
+    showResult(word);
+    speak(dictionary[word]);
 }
 
 function showResult(word) {
-
-const resultDiv = document.getElementById("result");
-
-resultDiv.textContent = dictionary[word];
-
-resultDiv.onclick = function() {
-speak(dictionary[word]);
-};
-
+    const resultDiv = document.getElementById("result");
+    resultDiv.textContent = dictionary[word];
+    resultDiv.onclick = function() {
+        speak(dictionary[word]);
+    };
 }
 
 function handleEnter(event) {
-
-if(event.key === "Enter") {
-
-const input = normalizeText(document.getElementById("searchInput").value);
-
-const match = Object.keys(dictionary).find(key =>
-normalizeText(key) === input
-);
-
-if(match) {
-selectWord(match);
-}
-
-}
-
+    if(event.key === "Enter") {
+        const input = normalizeText(document.getElementById("searchInput").value);
+        const match = Object.keys(dictionary).find(key => 
+            normalizeText(key) === input
+        );
+        if(match) {
+            selectWord(match);
+        }
+    }
 }
 
 function speak(text) {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "de-DE";
+    speech.rate = 0.9;
+    speech.pitch = 1;
 
-const speech = new SpeechSynthesisUtterance(text);
-speech.lang = "de-DE";
-speech.rate = 0.9;
-speech.pitch = 1;
-
-window.speechSynthesis.cancel();
-window.speechSynthesis.speak(speech);
-
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(speech);
 }
 
 function clearSearch() {
-
-document.getElementById("searchInput").value = "";
-document.getElementById("suggestions").innerHTML = "";
-document.getElementById("result").textContent = "";
-
-window.speechSynthesis.cancel();
-
+    document.getElementById("searchInput").value = "";
+    document.getElementById("suggestions").innerHTML = "";
+    document.getElementById("result").textContent = "";
+    window.speechSynthesis.cancel();
 }
 
 </script>
