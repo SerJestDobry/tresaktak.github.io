@@ -125,7 +125,6 @@ input:focus {
 <script>
 
 const dictionary = {
-
 // ===== ZWROTY PODSTAWOWE =====
 "proszę otworzyć buzię": "Machen Sie bitte den Mund auf",
 "coś pana boli": "Tut Ihnen etwas weh?",
@@ -294,11 +293,13 @@ const dictionary = {
 "czy to coś poważnego": "Ist das etwas Ernstes?",
 "czy potrzebuję antybiotyku": "Brauche ich ein Antibiotikum?",
 "proszę powiedzieć co mi dolega": "Bitte sagen Sie mir, was mir fehlt"
-
 };
+
+// Dodatkowo zamieniamy ręcznie "ł" na "l", ponieważ standardowe NFD nie zawsze radzi sobie z polskim "ł"
 function normalizeText(text) {
     return text
     .toLowerCase()
+    .replace(/ł/g, "l")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 }
@@ -310,6 +311,7 @@ function showSuggestions() {
 
     if(input.length === 0) return;
 
+    // TERAZ: Obie strony (wpisana i klucz ze słownika) są normalizowane przed porównaniem
     const matches = Object.keys(dictionary).filter(word => 
         normalizeText(word).includes(input)
     );
@@ -343,6 +345,7 @@ function showResult(word) {
 function handleEnter(event) {
     if(event.key === "Enter") {
         const input = normalizeText(document.getElementById("searchInput").value);
+        // Dopasowanie przy Enter również ignoruje polskie znaki
         const match = Object.keys(dictionary).find(key => 
             normalizeText(key) === input
         );
@@ -370,6 +373,5 @@ function clearSearch() {
 }
 
 </script>
-
 </body>
 </html>
