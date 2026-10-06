@@ -29,7 +29,7 @@ body {
 }
 .container {
     width: 100%;
-    max-width: 650px;
+    max-width: 680px;
     padding: 36px;
     background: var(--panel);
     border: 1px solid var(--line);
@@ -232,16 +232,16 @@ input[type="text"]:focus {
     font-weight: 650;
 }
 .result {
-    min-height: 126px;
+    min-height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 26px 22px;
+    padding: 24px 20px;
     border: 1px solid #365148;
     border-radius: 14px;
     background: #192b27;
     color: #b5f5de;
-    font-size: 23px;
+    font-size: 22px;
     font-weight: 500;
     line-height: 1.55;
     text-align: center;
@@ -261,6 +261,69 @@ input[type="text"]:focus {
     font-size: 14px;
     font-weight: 400;
 }
+
+/* Sekcja obrazka i zdań opisowych */
+.image-story-section {
+    margin-top: 28px;
+    padding: 20px;
+    background: #0e151b;
+    border: 1px solid #283640;
+    border-radius: 16px;
+}
+.image-story-title {
+    margin: 0 0 14px;
+    font-size: 14px;
+    font-weight: 650;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.story-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.story-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.sentence-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+}
+.chip {
+    padding: 7px 12px;
+    background: #141c23;
+    border: 1px solid #2b3842;
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+}
+.chip:hover {
+    background: #203830;
+    border-color: var(--accent);
+    color: #b5f5de;
+}
+.chip-pl {
+    display: block;
+    font-size: 11.5px;
+    color: var(--muted);
+}
+.chip-de {
+    display: block;
+    font-weight: 600;
+    color: var(--accent);
+}
+
 @media (max-width: 520px) {
     body { padding: 24px 14px; }
     .container { padding: 25px 20px; border-radius: 19px; }
@@ -269,7 +332,7 @@ input[type="text"]:focus {
     .language-pair { gap: 8px; padding: 7px 9px; }
     input[type="text"] { font-size: 16px; padding-left: 43px; }
     .search-icon { left: 14px; }
-    .result { font-size: 21px; min-height: 120px; }
+    .result { font-size: 20px; min-height: 110px; }
 }
 </style>
 </head>
@@ -299,9 +362,10 @@ input[type="text"]:focus {
         <div class="setting-group">
             <div class="settings-header">
                 <label for="speedRange">Prędkość mowy (de):</label>
-                <span id="speedValue" class="speed-value">0.9x</span>
+                <span id="speedValue" class="speed-value">0.7x</span>
             </div>
-            <input type="range" id="speedRange" class="speed-slider" min="0.5" max="2.0" step="0.1" value="0.9" oninput="updateSpeedValue(this.value)">
+            <!-- Domyślna prędkość ustawiona na 0.7 -->
+            <input type="range" id="speedRange" class="speed-slider" min="0.5" max="2.0" step="0.1" value="0.7" oninput="updateSpeedValue(this.value)">
         </div>
         <div class="setting-group">
             <label class="settings-header" for="voiceSelect">Głos lektora:</label>
@@ -312,6 +376,68 @@ input[type="text"]:focus {
     <div class="result-section">
         <p class="result-label">TŁUMACZENIE · DE</p>
         <div id="result" class="result" aria-live="polite"></div>
+    </div>
+
+    <!-- ROZBUDOWANA SEKCJA: OPIS OBRAZKA I ROZMOWA W SKLEPIE -->
+    <div class="image-story-section">
+        <h3 class="image-story-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Opis obrazka i zwroty zakupowe (Kolory i rozmiary)
+        </h3>
+        <div class="story-layout">
+            <div class="story-content">
+                <div class="sentence-chips">
+                    <button class="chip" onclick="playSentence('Kann ich Ihnen helfen?')">
+                        <span class="chip-pl">Czy mogę panu/pani pomóc?</span>
+                        <span class="chip-de">Kann ich Ihnen helfen?</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Was kann ich für Sie tun?')">
+                        <span class="chip-pl">Co mogę dla Państwa zrobić?</span>
+                        <span class="chip-de">Was kann ich für Sie tun?</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Welche Größe suchen Sie?')">
+                        <span class="chip-pl">Jakiego rozmiaru pan/pani szuka? (Rozmiar?)</span>
+                        <span class="chip-de">Welche Größe suchen Sie?</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Haben Sie das in Größe M?')">
+                        <span class="chip-pl">Czy mają to Państwo w rozmiarze M?</span>
+                        <span class="chip-de">Haben Sie das in Größe M?</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Haben Sie das auch in einer anderen Farbe?')">
+                        <span class="chip-pl">Czy mają to Państwo w innym kolorze? (Kolor?)</span>
+                        <span class="chip-de">Haben Sie das auch in einer anderen Farbe?</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Welche Farbe möchten Sie?')">
+                        <span class="chip-pl">Jaki kolor pani chce? / Jaki kolor pan wybiera?</span>
+                        <span class="chip-de">Welche Farbe möchten Sie?</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Kann ich das anprobieren?')">
+                        <span class="chip-pl">Czy mogę to przymierzyć?</span>
+                        <span class="chip-de">Kann ich das anprobieren?</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Wo ist die Umkleidekabine?')">
+                        <span class="chip-pl">Gdzie jest przymierzalnia?</span>
+                        <span class="chip-de">Wo ist die Umkleidekabine?</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Das ist zu groß oder zu klein.')">
+                        <span class="chip-pl">To jest za duże lub za małe.</span>
+                        <span class="chip-de">Das ist zu groß oder zu klein.</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Das passt mir gut.')">
+                        <span class="chip-pl">To na mnie dobrze leży / pasuje mi.</span>
+                        <span class="chip-de">Das passt mir gut.</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Ich nehme das.')">
+                        <span class="chip-pl">Wezmę to.</span>
+                        <span class="chip-de">Ich nehme das.</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Ich schaue mich nur um, danke!')">
+                        <span class="chip-pl">Tylko się rozglądam, dziękuję!</span>
+                        <span class="chip-de">Ich schaue mich nur um, danke!</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -394,10 +520,9 @@ let voices = [];
 
 function populateVoiceList() {
     if (typeof speechSynthesis === 'undefined') return;
-    // Filtrujemy głosy niemieckojęzyczne (lub wszystkie, jeśli brak niemieckich)
     voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith('de') || voice.lang.startsWith('de-'));
     if (voices.length === 0) {
-        voices = speechSynthesis.getVoices(); // fallback na wszystkie jeśli brak 'de' w nazwie lang
+        voices = speechSynthesis.getVoices();
     }
     
     const voiceSelect = document.getElementById('voiceSelect');
@@ -492,12 +617,10 @@ function speak(text) {
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = "de-DE";
     
-    // Pobranie prędkości
     const speedRange = document.getElementById("speedRange");
-    speech.rate = speedRange ? parseFloat(speedRange.value) : 0.9;
+    speech.rate = speedRange ? parseFloat(speedRange.value) : 0.7;
     speech.pitch = 1;
 
-    // Pobranie wybranego głosu
     const voiceSelect = document.getElementById("voiceSelect");
     if (voiceSelect && voices.length > 0 && voiceSelect.value !== "") {
         const selectedVoice = voices[parseInt(voiceSelect.value)];
@@ -508,6 +631,12 @@ function speak(text) {
 
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(speech);
+}
+
+function playSentence(germanSentence) {
+    const resultDiv = document.getElementById("result");
+    resultDiv.textContent = germanSentence;
+    speak(germanSentence);
 }
 
 function clearSearch() {
