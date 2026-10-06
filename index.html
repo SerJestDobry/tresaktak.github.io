@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Słownik Medyczny PL → DE</title>
+<title>Słownik Ubrania i Zakupy PL → DE</title>
 
 <style>
 :root {
@@ -240,7 +240,7 @@ input:focus {
 
 <div class="container">
     <div class="brand-row">
-        <div class="brand"><span class="brand-icon" aria-hidden="true">+</span> SIEMA</div>
+        <div class="brand"><span class="brand-icon" aria-hidden="true">+</span> SŁOWNIK</div>
         <div class="language-pair" aria-label="Z polskiego na niemiecki">PL <span aria-hidden="true">→</span> <strong>DE</strong></div>
     </div>
 
@@ -248,7 +248,7 @@ input:focus {
     <div class="search-box">
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
         <input type="text" id="searchInput"
-        placeholder="Wpisz zdanie po polsku..."
+        placeholder="Wpisz słowo lub zdanie..."
         oninput="showSuggestions()"
         onkeydown="handleEnter(event)">
         <button id="clearBtn" onclick="clearSearch()" aria-label="Wyczyść wyszukiwanie" title="Wyczyść wyszukiwanie">✖</button>
@@ -265,216 +265,79 @@ input:focus {
 <script>
 
 const dictionary = {
+    // ===== UBRANIA (KLEIDUNG) =====
+    "czapka": "die Mütze",
+    "czerwona czapka": "eine rote Mütze",
+    "kurtka": "die Jacke",
+    "zielona kurtka": "eine grüne Jacke",
+    "rękawiczki": "die Handschuhe",
+    "kolorowe rękawiczki": "bunte Handschuhe",
+    "spodnie": "die Hose",
+    "jasne spodnie": "eine helle Hose",
+    "pulower": "der Pullover",
+    "żółty pulower": "ein gelber Pullover",
+    "buty": "die Schuhe",
+    "eleganckie buty": "elegante Schuhe",
+    "t-shirt": "das T-Shirt",
+    "niebieski t-shirt": "ein blaues T-Shirt",
+    "płaszcz": "der Mantel",
+    "elegancki płaszcz": "ein schicker Mantel",
+    "szalik": "der Schal",
+    "czerwony szalik": "ein roter Schal",
+    "jeansy": "die Jeans",
+    "niebieskie jeansy": "eine blaue Jeans",
+    "koszula": "das Hemd",
+    "koszula w kratę": "ein kariertes Hemd",
+    "spódnica": "der Rock",
+    "krótka spódnica": "ein kurzer Rock",
+    "sukienka": "das Kleid",
+    "żółta sukienka": "ein gelbes Kleid",
+    "bluza": "das Sweatshirt",
+    "niebieska bluza": "ein blaues Sweatshirt",
+    "bluzka": "die Bluse",
+    "elegancka bluzka": "eine elegante Bluse",
 
-// ===== ZWROTY Z PODRĘCZNIKA I ZDJĘĆ =====
-"proszę otworzyć buzię": "Machen Sie mal bitte den Mund auf.",
-"coś pana boli": "Tut Ihnen etwas weh?",
-"coś pani boli?": "Tut Ihnen etwas weh?",
-"proszę wziąć głęboki wdech i wydech": "Atmen Sie bitte tief ein und aus",
-"proszę rozebrać się do pasa": "Machen Sie bitte den Oberkörper frei",
-"przepiszę pani antybiotyk": "Ich verschreibe Ihnen ein Antibiotikum",
-"proszę zakaszleć": "Husten Sie bitte",
-"ma pani gorączkę": "Sie haben Fieber",
-"tutaj jest pani zwolnienie lekarskie": "Hier ist Ihre Krankschreibung",
-"źle się czuję": "Ich fühle mich schlecht",
-"co mi dolega": "Was fehlt mir?",
-"boli mnie też gardło i mam kaszel": "Ich habe auch Halsschmerzen und Husten",
-"mam przyjść do lekarza": "Soll ich zum Arzt kommen?",
-"jak często powinienem zażyć antybiotyk": "Wie oft soll ich das Antibiotikum einnehmen?",
-"od kiedy źle się czujesz": "Seit wann pfühst du dich schlecht?",
-"muszę brać leki 3 razy dziennie": "Ich muss die Medikamente dreimal täglich einnehmen",
-"mam kaszel i katar": "Ich habe Husten und Schnupfen",
-"przepiszę panu lekarstwa": "Ich verschreibe Ihnen Medikamente",
-"es geht mir nicht gut": "Es geht mir nicht gut.",
-"boli mnie też gardło i kaszlę": "Ich habe auch Halsschmerzen und Husten.",
-"jak długo powinnam zostać w łóżku?": "Wie lange soll ich im Bett bleiben?",
-"mam przyjść do kontroli?": "Soll ich zur Kontrolle kommen?",
-"jak często powinnam zażywać antybiotyk?": "Wie oft soll ich das Antibiotikum einnehmen?",
-"tutaj jest pani zwolnienie lekarskie.": "Das hier ist Ihre Krankschreibung.",
-"ma pani gorączkę?": "Haben Sie auch Fieber?",
-"proszę powiedzieć: aaa": "Sagen Sie: Aaaaa...",
-"co mogę dla pana/pani zrobić?": "Was kann ich für Sie tun?",
-"a skąd pochodzą bóle?": "Und woher kommen die Schmerzen?",
-"jak mam przyjmować leki?": "Wie soll ich die Medikamente einnehmen?",
-"ile kosztują leki?": "Wie viel kosten die Medikamente?",
-"czy ma pan/pani jutro rano wolny termin?": "Haben Sie morgen früh einen freien Termin?",
-"boli mnie ręka i potrzebuję tabletek przeciwbólowych": "Mein Arm tut weh und ich brauche Schmerztabletten.",
-"dziękuję za pomoc": "Danke für die Hilfe.",
-"życzę miłego dnia": "Ich wünsche Ihnen einen schönen Tag.",
-"leżałem/-am na plaży i mam poparzenie słoneczne": "Ich habe am Strand gelegen und habe einen Sonnenbrand.",
-"ten termin mi nie pasuje": "Der Termin passt mir nicht.",
+    // ===== PORY ROKU =====
+    "wiosna": "der Frühling",
+    "lato": "der Sommer",
+    "jesień": "der Herbst",
+    "zima": "der Winter",
 
-// ===== ZWROTY PODSTAWOWE =====
-"proszę otworzyć buzię": "Machen Sie bitte den Mund auf",
-"coś pana boli": "Tut Ihnen etwas weh?",
-"proszę wziąć głęboki wdech i wydech": "Atmen Sie bitte tief ein und aus",
-"proszę rozebrać się do pasa": "Machen Sie bitte den Oberkörper frei",
-"przepiszę pani antybiotyk": "Ich verschreibe Ihnen ein Antibiotikum",
-"proszę zakaszleć": "Husten Sie bitte",
-"ma pani gorączkę": "Sie haben Fieber",
-"tutaj jest pani zwolnienie lekarskie": "Hier ist Ihre Krankschreibung",
-"źle się czuję": "Ich fühle mich schlecht",
-"co mi dolega": "Was fehlt mir?",
-"boli mnie też gardło i mam kaszel": "Ich habe auch Halsschmerzen und Husten",
-"mam przyjść do lekarza": "Soll ich zum Arzt kommen?",
-"jak często powinienem zażyć antybiotyk": "Wie oft soll ich das Antibiotikum einnehmen?",
-"od kiedy źle się czujesz": "Seit wann fühlst du dich schlecht?",
-"muszę brać leki 3 razy dziennie": "Ich muss die Medikamente dreimal täglich einnehmen",
-"mam kaszel i katar": "Ich habe Husten und Schnupfen",
-"przepiszę panu lekarstwa": "Ich verschreibe Ihnen Medikamente",
-
-// ===== DODANE =====
-"proszę się rozebrać": "Bitte machen Sie den Oberkörper frei",
-"proszę oddychać głęboko": "Bitte atmen Sie tief ein",
-"jak długo powinienem leżeć w łóżku": "Wie lange sollte ich Bettruhe haben?",
-"kiedy powinienem przyjść do kontroli": "Wann sollte ich zur Kontrolle kommen?",
-"proszę powiedzieć a": "Bitte sagen Sie „a“",
-"czy ma pan gorączkę": "Haben Sie Fieber?",
-"mam gorączkę": "Ich habe Fieber",
-
-// ===== CZĘŚCI CIAŁA =====
-"ręka": "der Arm",
-"oko": "das Auge",
-"brzuch": "der Bauch",
-"noga": "das Bein",
-"klatka piersiowa": "die Brust",
-"palec u ręki": "der Finger",
-"stopa": "der Fuß",
-"włos": "das Haar",
-"szyja": "der Hals",
-"gardło": "der Hals",
-"dłoń": "die Hand",
-"kolano": "das Knie",
-"głowa": "der Kopf",
-"ciało": "der Körper",
-"usta": "der Mund",
-"nos": "die Nase",
-"ucho": "das Ohr",
-"pupa": "der Po",
-"plecy": "der Rücken",
-"ząb": "der Zahn",
-"palec u nogi": "die Zehe",
-
-// ===== DOLEGLIWOŚCI =====
-"angina": "die Angina",
-"gorączka": "das Fieber",
-"grypa": "die Grippe",
-"kaszel": "der Husten",
-"problem ze snem": "die Schlafstörung",
-"ból": "der Schmerz",
-"bóle brzucha": "Bauchschmerzen",
-"bóle głowy": "Kopfschmerzen",
-"bóle uszu": "Ohrenschmerzen",
-"katar": "der Schnupfen",
-"poparzenie słoneczne": "der Sonnenbrand",
-"porażenie słoneczne": "der Sonnenstich",
-
-// ===== CZASOWNIKI =====
-"oglądać": "(sich) anschauen",
-"oddychać": "atmen",
-"leczyć": "behandeln",
-"leczyć pacjentów": "Patienten behandeln",
-"przyjmować": "einnehmen",
-"patrzeć": "gucken",
-"mieć nadzieję": "hoffen",
-"kaszleć": "husten",
-"wystawiać zwolnienie lekarskie": "krankschreiben",
-"wietrzyć": "lüften",
-"badać": "untersuchen",
-"zapominać": "vergessen",
-"przypuszczać": "vermuten",
-"zalecać": "verordnen",
-"zapisywać": "verschreiben",
-"zapisywać lekarstwa": "Medikamente verschreiben",
-"boleć": "wehtun",
-"zwracać się do": "sich wenden an",
-
-// ===== PRZYMIOTNIKI =====
-"pilny": "dringend",
-"przeziębiony": "erkältet",
-"zdrowy": "gesund",
-"chory": "krank",
-"słaby": "schwach",
-"zadowolony": "zufrieden",
-
-// ===== INNE =====
-"pojęcie": "die Ahnung",
-"nie mam pojęcia": "Ich habe keine Ahnung",
-"antybiotyk": "das Antibiotikum",
-"gabinet lekarski": "die Arztpraxis",
-"być u lekarza": "beim Arzt sein",
-"pogotowie górskie": "die Bergwacht",
-"poprawa": "die Besserung",
-"szybkiego powrotu do zdrowia": "Gute Besserung!",
-"leżenie w łóżku": "die Bettruhe",
-"zalecać leżenie w łóżku": "Bettruhe verordnen",
-"ruch": "die Bewegung",
-"umawiać wizytę u lekarza": "einen Termin beim Arzt machen",
-"obywatel ue": "der EU-Bürger",
-"być bardzo zmęczonym": "fix und fertig sein",
-"potrzebować świeżego powietrza": "frische Luft brauchen",
-"tracić cierpliwość": "die Geduld verlieren",
-"spójrz tutaj": "Guck mal hier!",
-"martwię się": "Ich mache mir Sorgen",
-"ubezpieczenie zdrowotne": "die Krankenversicherung",
-"karta ubezpieczenia zdrowotnego": "die Krankenversicherungskarte",
-"zwolnienie lekarskie": "die Krankschreibung",
-"nie martw się": "Mach dir keine Sorgen!",
-"masaż": "die Massage",
-"lekarstwo": "das Medikament",
-"otworzyć usta": "den Mund aufmachen",
-"krople do nosa": "die Nasentropfen",
-"izba przyjęć": "die Notaufnahme",
-"nagły wypadek": "der Notfall",
-"numer alarmowy": "die Notrufnummer",
-"rozebrać się do pasa": "den Oberkörper frei machen",
-"zapisywać krople do uszu": "Ohrentropfen verschreiben",
-"potrzebować profesjonalnej pomocy": "professionelle Hilfe brauchen",
-"karetka pogotowia": "der Rettungswagen",
-"recepta": "das Rezept",
-"prześwietlenie": "die Röntgenaufnahme",
-"zdjęcie rentgenowskie": "die Röntgenaufnahme",
-"maść": "die Salbe",
-"tabletka przeciwbólowa": "die Schmerztablette",
-"ratownictwo morskie": "die Seenotrettung",
-"od kiedy": "Seit wann?",
-"od tygodnia": "seit einer Woche",
-"od miesiąca": "seit einem Monat",
-"od roku": "seit einem Jahr",
-"syrop przeciwkaszlowy": "Sirup gegen Husten",
-"badanie": "die Untersuchung",
-"co ci dolega": "Was fehlt dir?",
-"co panu dolega": "Was fehlt Ihnen?",
-"co ci jest": "Was hast du denn?",
-"co mam zrobić": "Was soll ich tun?",
-"co cię boli": "Was tut dir weh?",
-"co pana boli": "Was tut Ihnen weh?",
-"jak się czujesz": "Wie fühlst du dich?",
-"jak się pan czuje": "Wie fühlen Sie sich?",
-"iść do lekarza": "zum Arzt gehen",
-"przychodzić na kontrolę": "zur Kontrolle kommen",
-
-// ===== GOTOWE ZDANIA =====
-"boli mnie głowa": "Der Kopf tut mir weh",
-"bolą mnie nogi": "Die Beine tun mir weh",
-"potrzebuję lekarza": "Ich brauche einen Arzt",
-"jestem chory": "Ich bin krank",
-"jestem przeziębiony": "Ich bin erkältet",
-"potrzebuję recepty": "Ich brauche ein Rezept",
-"mam ból brzucha": "Ich habe Bauchschmerzen",
-"mam ból głowy": "Ich habe Kopfschmerzen",
-"mam ból ucha": "Ich habe Ohrenschmerzen",
-"mam anginę": "Ich habe Angina",
-"mam grypę": "Ich habe Grippe",
-"muszę odpoczywać": "Ich muss mich ausruhen",
-"potrzebuję pomocy": "Ich brauche Hilfe",
-"proszę o pomoc": "Bitte helfen Sie mir",
-"czy to coś poważnego": "Ist das etwas Ernstes?",
-"czy potrzebuję antybiotyku": "Brauche ich ein Antibiotikum?",
-"proszę powiedzieć co mi dolega": "Bitte sagen Sie mir, was mir fehlt"
+    // ===== ZWROTY SKLEPOWE / ZAKUPY =====
+    "ile to kosztuje": "Wie viel kostet das?",
+    "co mogę dla ciebie zrobić?": "Was kann ich für dich tun?",
+    "czy mogę to przymierzyć?": "Kann ich das anprobieren?",
+    "gdzie jest przymierzalnia?": "Wo ist die Umkleidekabine?",
+    "jaki to jest rozmiar?": "Welche Größe ist das?",
+    "czy mają to państwo w rozmiarze m?": "Haben Sie das in Größe M?",
+    "czy mają to państwo również w innym kolorze?": "Haben Sie das auch in einer anderen Farbe?",
+    "to jest za duże / za małe": "Das ist zu groß / zu klein.",
+    "to jest za duże": "Das ist zu groß.",
+    "to jest za małe": "Das ist zu klein.",
+    "to na mnie dobrze leży / pasuje mi": "Das passt mir gut.",
+    "pasuje mi": "Das passt mir gut.",
+    "wezmę to": "Ich nehme das.",
+    "tylko się rozglądam, dziękuję!": "Ich schaue mich nur um, danke!",
+    "tylko się rozglądam": "Ich schaue mich nur um.",
+    "czy mogę państwu / panu / pani pomóc?": "Kann ich Ihnen helfen?",
+    "czy mogę panu pomóc?": "Kann ich Ihnen helfen?",
+    "czy mogę pani pomóc?": "Kann ich Ihnen helfen?",
+    "co mogę dla państwa / pana / pani zrobić?": "Was kann ich für Sie tun?",
+    "co mogę dla pana zrobić?": "Was kann ich für Sie tun?",
+    "co mogę dla pani zrobić?": "Was kann ich für Sie tun?",
+    "co mogę dla ciebie zrobić? (mniej formalnie)": "Was kann ich für dich tun?",
+    "jakiego rozmiaru pan/pani szuka?": "Welche Größe suchen Sie?",
+    "jaki masz rozmiar? (mniej formalnie)": "Welche Größe hast du?",
+    "jaki masz rozmiar": "Welche Größe hast du?",
+    "jak to leży / jaki to ma krojenie?": "Wie fällt das aus?",
+    "przymierzalnia jest tam po drugiej stronie": "Die Umkleidekabine ist dort drüben.",
+    "gdzie jest kasa?": "Wo ist die Kasse?",
+    "czy mogę zapłacić kartą?": "Kann ich mit Karte bezahlen?",
+    "chcę zapłacić gotówką": "Ich möchte bar bezahlen.",
+    "czy mogę prosić o paragon?": "Kann ich den Kassenbon haben?"
 };
 
-// Dodatkowo zamieniamy ręcznie "ł" na "l", ponieważ standardowe NFD nie zawsze radzi sobie z polskim "ł"
+// Normalizacja tekstu (uwzględniająca polskie litery)
 function normalizeText(text) {
     return text
     .toLowerCase()
@@ -490,7 +353,6 @@ function showSuggestions() {
 
     if(input.length === 0) return;
 
-    // TERAZ: Obie strony (wpisana i klucz ze słownika) są normalizowane przed porównaniem
     const matches = Object.keys(dictionary).filter(word => 
         normalizeText(word).includes(input)
     );
@@ -524,7 +386,6 @@ function showResult(word) {
 function handleEnter(event) {
     if(event.key === "Enter") {
         const input = normalizeText(document.getElementById("searchInput").value);
-        // Dopasowanie przy Enter również ignoruje polskie znaki
         const match = Object.keys(dictionary).find(key => 
             normalizeText(key) === input
         );
