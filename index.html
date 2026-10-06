@@ -262,7 +262,7 @@ input[type="text"]:focus {
     font-weight: 400;
 }
 
-/* Sekcja obrazka i zdań opisowych */
+/* Sekcja opisu obrazka w pojedynczych zdaniach po niemiecku */
 .image-story-section {
     margin-top: 28px;
     padding: 20px;
@@ -298,7 +298,7 @@ input[type="text"]:focus {
     margin-top: 4px;
 }
 .chip {
-    padding: 7px 12px;
+    padding: 8px 12px;
     background: #141c23;
     border: 1px solid #2b3842;
     border-radius: 8px;
@@ -315,7 +315,7 @@ input[type="text"]:focus {
 }
 .chip-pl {
     display: block;
-    font-size: 11.5px;
+    font-size: 11px;
     color: var(--muted);
 }
 .chip-de {
@@ -378,62 +378,54 @@ input[type="text"]:focus {
         <div id="result" class="result" aria-live="polite"></div>
     </div>
 
-    <!-- ROZBUDOWANA SEKCJA: OPIS OBRAZKA I ROZMOWA W SKLEPIE -->
+    <!-- DOLNA SEKCJA: OPIS OBRAZKA W POJEDYNCZYCH ZDANIACH PO NIEMIECKU -->
     <div class="image-story-section">
         <h3 class="image-story-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Opis obrazka i zwroty zakupowe (Kolory i rozmiary)
+            Opis obrazka (Zakupy w sklepie)
         </h3>
         <div class="story-layout">
             <div class="story-content">
                 <div class="sentence-chips">
-                    <button class="chip" onclick="playSentence('Kann ich Ihnen helfen?')">
-                        <span class="chip-pl">Czy mogę panu/pani pomóc?</span>
-                        <span class="chip-de">Kann ich Ihnen helfen?</span>
+                    <button class="chip" onclick="playSentence('Das ist ein Geschäft für Kleidung.')">
+                        <span class="chip-pl">To jest sklep z odzieżą.</span>
+                        <span class="chip-de">Das ist ein Geschäft für Kleidung.</span>
                     </button>
-                    <button class="chip" onclick="playSentence('Was kann ich für Sie tun?')">
-                        <span class="chip-pl">Co mogę dla Państwa zrobić?</span>
-                        <span class="chip-de">Was kann ich für Sie tun?</span>
+                    <button class="chip" onclick="playSentence('Die Kundin lächelt und hält Kleidung in der Hand.')">
+                        <span class="chip-pl">Klientka uśmiecha się i trzyma ubranie w ręku.</span>
+                        <span class="chip-de">Die Kundin lächelt und hält Kleidung in der Hand.</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Sie trägt ein blaues T-Shirt.')">
+                        <span class="chip-pl">Ona nosi niebieski t-shirt.</span>
+                        <span class="chip-de">Sie trägt ein blaues T-Shirt.</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Sie probiert verschiedene Farben und Größen aus.')">
+                        <span class="chip-pl">Ona przymierza różne kolory i rozmiary.</span>
+                        <span class="chip-de">Sie probiert verschiedene Farben und Größen aus.</span>
+                    </button>
+                    <button class="chip" onclick="playSentence('Die Verkäuferin fragt: Kann ich Ihnen helfen?')">
+                        <span class="chip-pl">Sprzedawczyni pyta: Czy mogę pani pomóc?</span>
+                        <span class="chip-de">Die Verkäuferin fragt: Kann ich Ihnen helfen?</span>
                     </button>
                     <button class="chip" onclick="playSentence('Welche Größe suchen Sie?')">
-                        <span class="chip-pl">Jakiego rozmiaru pan/pani szuka? (Rozmiar?)</span>
+                        <span class="chip-pl">Jakiego rozmiaru pani szuka?</span>
                         <span class="chip-de">Welche Größe suchen Sie?</span>
                     </button>
-                    <button class="chip" onclick="playSentence('Haben Sie das in Größe M?')">
-                        <span class="chip-pl">Czy mają to Państwo w rozmiarze M?</span>
-                        <span class="chip-de">Haben Sie das in Größe M?</span>
+                    <button class="chip" onclick="playSentence('Welche Farbe möchten Sie?')">
+                        <span class="chip-pl">Jaki kolor pani chce?</span>
+                        <span class="chip-de">Welche Farbe möchten Sie?</span>
                     </button>
                     <button class="chip" onclick="playSentence('Haben Sie das auch in einer anderen Farbe?')">
-                        <span class="chip-pl">Czy mają to Państwo w innym kolorze? (Kolor?)</span>
+                        <span class="chip-pl">Czy mają to Państwo w innym kolorze?</span>
                         <span class="chip-de">Haben Sie das auch in einer anderen Farbe?</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Welche Farbe möchten Sie?')">
-                        <span class="chip-pl">Jaki kolor pani chce? / Jaki kolor pan wybiera?</span>
-                        <span class="chip-de">Welche Farbe möchten Sie?</span>
                     </button>
                     <button class="chip" onclick="playSentence('Kann ich das anprobieren?')">
                         <span class="chip-pl">Czy mogę to przymierzyć?</span>
                         <span class="chip-de">Kann ich das anprobieren?</span>
                     </button>
-                    <button class="chip" onclick="playSentence('Wo ist die Umkleidekabine?')">
-                        <span class="chip-pl">Gdzie jest przymierzalnia?</span>
-                        <span class="chip-de">Wo ist die Umkleidekabine?</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Das ist zu groß oder zu klein.')">
-                        <span class="chip-pl">To jest za duże lub za małe.</span>
-                        <span class="chip-de">Das ist zu groß oder zu klein.</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Das passt mir gut.')">
-                        <span class="chip-pl">To na mnie dobrze leży / pasuje mi.</span>
-                        <span class="chip-de">Das passt mir gut.</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Ich nehme das.')">
-                        <span class="chip-pl">Wezmę to.</span>
-                        <span class="chip-de">Ich nehme das.</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Ich schaue mich nur um, danke!')">
-                        <span class="chip-pl">Tylko się rozglądam, dziękuję!</span>
-                        <span class="chip-de">Ich schaue mich nur um, danke!</span>
+                    <button class="chip" onclick="playSentence('Das passt mir gut. Ich nehme das.')">
+                        <span class="chip-pl">To pasuje mi dobrze. Wezmę to.</span>
+                        <span class="chip-de">Das passt mir gut. Ich nehme das.</span>
                     </button>
                 </div>
             </div>
@@ -482,7 +474,7 @@ const dictionary = {
     "jesień": "der Herbst",
     "zima": "der Winter",
 
-    // ===== ZWROTY SKLEPOWE / ZAKUPY =====
+    // ===== ZWROTY SKLEPOWE / ZAKUPY I OPIS OBRAZKA =====
     "ile to kosztuje": "Wie viel kostet das?",
     "co mogę dla ciebie zrobić?": "Was kann ich für dich tun?",
     "czy mogę to przymierzyć?": "Kann ich das anprobieren?",
@@ -504,16 +496,13 @@ const dictionary = {
     "co mogę dla państwa / pana / pani zrobić?": "Was kann ich für Sie tun?",
     "co mogę dla pana zrobić?": "Was kann ich für Sie tun?",
     "co mogę dla pani zrobić?": "Was kann ich für Sie tun?",
-    "co mogę dla ciebie zrobić? (mniej formalnie)": "Was kann ich für dich tun?",
     "jakiego rozmiaru pan/pani szuka?": "Welche Größe suchen Sie?",
-    "jaki masz rozmiar? (mniej formalnie)": "Welche Größe hast du?",
-    "jaki masz rozmiar": "Welche Größe hast du?",
-    "jak to leży / jaki to ma krojenie?": "Wie fällt das aus?",
-    "przymierzalnia jest tam po drugiej stronie": "Die Umkleidekabine ist dort drüben.",
-    "gdzie jest kasa?": "Wo ist die Kasse?",
-    "czy mogę zapłacić kartą?": "Kann ich mit Karte bezahlen?",
-    "chcę zapłacić gotówką": "Ich möchte bar bezahlen.",
-    "czy mogę prosić o paragon?": "Kann ich den Kassenbon haben?"
+    "jaki masz rozmiar?": "Welche Größe hast du?",
+    "jaki kolor pani chce?": "Welche Farbe möchten Sie?",
+    "to jest sklep z odzieżą": "Das ist ein Geschäft für Kleidung.",
+    "klientka uśmiecha się i trzyma ubranie w ręku": "Die Kundin lächelt und hält Kleidung in der Hand.",
+    "ona nosi niebieski t-shirt": "Sie trägt ein blaues T-Shirt.",
+    "ona przymierza różne kolory i rozmiary": "Sie probiert verschiedene Farben und Größen aus."
 };
 
 let voices = [];
