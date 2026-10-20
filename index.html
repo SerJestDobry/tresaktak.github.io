@@ -285,45 +285,24 @@ input[type="text"]:focus {
     flex-direction: column;
     gap: 16px;
 }
-.story-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+
+.story-content { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.story-step {
+    padding: 22px 16px; min-height: 130px; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; gap: 12px; text-align: center;
+    background: #192b27; border: 1px solid #365148; border-radius: 14px; cursor: pointer;
 }
-.sentence-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 4px;
+.story-step-de { color: var(--accent); font-size: 23px; font-weight: 650; line-height: 1.5; }
+.story-step-pl { color: var(--muted); font-size: 15px; line-height: 1.5; }
+.story-progress { color: var(--muted); font-size: 12px; text-align: center; }
+.story-controls { display: flex; gap: 10px; }
+.story-btn {
+    flex: 1; padding: 12px 14px; border: 1px solid #3a4954; border-radius: 10px;
+    background: #141c23; color: var(--text); font: inherit; font-weight: 600; cursor: pointer;
 }
-.chip {
-    padding: 8px 12px;
-    background: #141c23;
-    border: 1px solid #2b3842;
-    border-radius: 8px;
-    font-size: 12.5px;
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: left;
-    width: 100%;
-}
-.chip:hover {
-    background: #203830;
-    border-color: var(--accent);
-    color: #b5f5de;
-}
-.chip-pl {
-    display: block;
-    font-size: 11px;
-    color: var(--muted);
-}
-.chip-de {
-    display: block;
-    font-weight: 600;
-    color: var(--accent);
-}
+.story-btn.primary { background: #203b35; border-color: #34554b; color: var(--accent); }
+.story-btn:disabled { opacity: .4; cursor: not-allowed; }
+.story-btn:hover:not(:disabled) { border-color: var(--accent); }
 
 @media (max-width: 520px) {
     body { padding: 24px 14px; }
@@ -387,31 +366,14 @@ input[type="text"]:focus {
         </h3>
         <div class="story-layout">
             <div class="story-content">
-                <div class="sentence-chips">
-                    <button class="chip" onclick="playSentence('Auf dem Bild sieht man eine junge Frau in einem Bekleidungsgeschäft.')">
-                        <span class="chip-pl">Na zdjęciu widać młodą kobietę w sklepie odzieżowym.</span>
-                        <span class="chip-de">Auf dem Bild sieht man eine junge Frau in einem Bekleidungsgeschäft.</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Sie hat lange, dunkle Haare und lächelt freundlich.')">
-                        <span class="chip-pl">Kobieta ma długie, ciemne włosy i przyjaźnie się uśmiecha.</span>
-                        <span class="chip-de">Sie hat lange, dunkle Haare und lächelt freundlich.</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Sie trägt ein blaues Oberteil.')">
-                        <span class="chip-pl">Ma na sobie niebieską bluzkę.</span>
-                        <span class="chip-de">Sie trägt ein blaues Oberteil.</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('In der Hand hält sie einen Stapel Kleidung.')">
-                        <span class="chip-pl">W ręku trzyma stos ubrań.</span>
-                        <span class="chip-de">In der Hand hält sie einen Stapel Kleidung.</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Außerdem trägt sie eine Einkaufstasche.')">
-                        <span class="chip-pl">Trzyma również torbę na zakupy.</span>
-                        <span class="chip-de">Außerdem trägt sie eine Einkaufstasche.</span>
-                    </button>
-                    <button class="chip" onclick="playSentence('Im Hintergrund stehen Kleiderständer mit vielen Klamotten.')">
-                        <span class="chip-pl">W tle znajdują się wieszaki z wieloma ubraniami.</span>
-                        <span class="chip-de">Im Hintergrund stehen Kleiderständer mit vielen Klamotten.</span>
-                    </button>
+                <div class="story-step" id="storyStep" role="button" tabindex="0" onclick="playCurrentStoryStep()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playCurrentStoryStep();}">
+                    <div class="story-step-de" id="storyGerman">Auf dem Bild</div>
+                    <div class="story-step-pl" id="storyPolish">Na obrazku</div>
+                </div>
+                <div class="story-progress" id="storyProgress">Część 1</div>
+                <div class="story-controls">
+                    <button class="story-btn" id="storyBack" onclick="moveStory(-1)" disabled>← Wstecz</button>
+                    <button class="story-btn primary" id="storyNext" onclick="moveStory(1)">Dalej →</button>
                 </div>
             </div>
         </div>
@@ -616,6 +578,50 @@ function playSentence(germanSentence) {
     resultDiv.textContent = germanSentence;
     speak(germanSentence);
 }
+
+
+const storySteps = [
+    ["Auf dem Bild", "Na obrazku"],
+    ["sieht man", "widać"],
+    ["eine junge Frau", "młodą kobietę"],
+    ["in einem Bekleidungsgeschäft.", "w sklepie odzieżowym."],
+    ["Sie hat", "Ona ma"],
+    ["lange, dunkle Haare", "długie, ciemne włosy"],
+    ["und lächelt freundlich.", "i przyjaźnie się uśmiecha."],
+    ["Sie trägt", "Ona ma na sobie"],
+    ["ein blaues Oberteil.", "niebieską bluzkę."],
+    ["In der Hand", "W ręku"],
+    ["hält sie", "trzyma"],
+    ["einen Stapel Kleidung.", "stos ubrań."],
+    ["Außerdem", "Oprócz tego"],
+    ["trägt sie", "nosi / ma przy sobie"],
+    ["eine Einkaufstasche.", "torbę na zakupy."],
+    ["Im Hintergrund", "W tle"],
+    ["stehen Kleiderständer", "stoją wieszaki na ubrania"],
+    ["mit vielen Klamotten.", "z wieloma ubraniami."]
+];
+let storyIndex = 0;
+
+function renderStoryStep() {
+    document.getElementById("storyGerman").textContent = storySteps[storyIndex][0];
+    document.getElementById("storyPolish").textContent = storySteps[storyIndex][1];
+    document.getElementById("storyProgress").textContent =
+        `Część ${storyIndex + 1} z ${storySteps.length} · Kliknij tekst, aby go usłyszeć`;
+    document.getElementById("storyBack").disabled = storyIndex === 0;
+    document.getElementById("storyNext").textContent =
+        storyIndex === storySteps.length - 1 ? "Od początku ↻" : "Dalej →";
+}
+function playCurrentStoryStep() {
+    speak(storySteps[storyIndex][0]);
+}
+function moveStory(direction) {
+    if (direction === 1 && storyIndex === storySteps.length - 1) storyIndex = 0;
+    else storyIndex = Math.max(0, Math.min(storySteps.length - 1, storyIndex + direction));
+    renderStoryStep();
+    playCurrentStoryStep();
+}
+
+renderStoryStep();
 
 function clearSearch() {
     document.getElementById("searchInput").value = "";
