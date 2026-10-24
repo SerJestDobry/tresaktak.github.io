@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Słownik Ubrania i Zakupy PL → DE</title>
+<title>Słownik Zawody i Praca PL → DE</title>
 
 <style>
 :root {
@@ -262,48 +262,6 @@ input[type="text"]:focus {
     font-weight: 400;
 }
 
-/* Sekcja opisu obrazka w pojedynczych zdaniach po niemiecku */
-.image-story-section {
-    margin-top: 28px;
-    padding: 20px;
-    background: #0e151b;
-    border: 1px solid #283640;
-    border-radius: 16px;
-}
-.image-story-title {
-    margin: 0 0 14px;
-    font-size: 14px;
-    font-weight: 650;
-    color: var(--accent);
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.story-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.story-content { flex: 1; display: flex; flex-direction: column; gap: 12px; }
-.story-step {
-    padding: 22px 16px; min-height: 130px; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; gap: 12px; text-align: center;
-    background: #192b27; border: 1px solid #365148; border-radius: 14px; cursor: pointer;
-}
-.story-step-de { color: var(--accent); font-size: 23px; font-weight: 650; line-height: 1.5; }
-.story-step-pl { color: var(--muted); font-size: 15px; line-height: 1.5; }
-.story-progress { color: var(--muted); font-size: 12px; text-align: center; }
-.story-controls { display: flex; gap: 10px; }
-.story-btn {
-    flex: 1; padding: 12px 14px; border: 1px solid #3a4954; border-radius: 10px;
-    background: #141c23; color: var(--text); font: inherit; font-weight: 600; cursor: pointer;
-}
-.story-btn.primary { background: #203b35; border-color: #34554b; color: var(--accent); }
-.story-btn:disabled { opacity: .4; cursor: not-allowed; }
-.story-btn:hover:not(:disabled) { border-color: var(--accent); }
-
 @media (max-width: 520px) {
     body { padding: 24px 14px; }
     .container { padding: 25px 20px; border-radius: 19px; }
@@ -321,7 +279,7 @@ input[type="text"]:focus {
 
 <div class="container">
     <div class="brand-row">
-        <div class="brand"><span class="brand-icon" aria-hidden="true">+</span> SŁOWNIK</div>
+        <div class="brand"><span class="brand-icon" aria-hidden="true">+</span> SŁOWNIK · ZAWODY I PRACA</div>
         <div class="language-pair" aria-label="Z polskiego na niemiecki">PL <span aria-hidden="true">→</span> <strong>DE</strong></div>
     </div>
 
@@ -358,102 +316,80 @@ input[type="text"]:focus {
         <div id="result" class="result" aria-live="polite"></div>
     </div>
 
-    <!-- DOLNA SEKCJA: NOWY OPIS OBRAZKA -->
-    <div class="image-story-section">
-        <h3 class="image-story-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Opis obrazka (Zakupy w sklepie)
-        </h3>
-        <div class="story-layout">
-            <div class="story-content">
-                <div class="story-step" id="storyStep" role="button" tabindex="0" onclick="playCurrentStoryStep()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playCurrentStoryStep();}">
-                    <div class="story-step-de" id="storyGerman">Auf dem Bild</div>
-                    <div class="story-step-pl" id="storyPolish">Na obrazku</div>
-                </div>
-                <div class="story-progress" id="storyProgress">Część 1</div>
-                <div class="story-controls">
-                    <button class="story-btn" id="storyBack" onclick="moveStory(-1)" disabled>← Wstecz</button>
-                    <button class="story-btn primary" id="storyNext" onclick="moveStory(1)">Dalej →</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
 
 <script>
 const dictionary = {
-    // ===== UBRANIA (KLEIDUNG) =====
-    "czapka": "die Mütze",
-    "czerwona czapka": "eine rote Mütze",
-    "kurtka": "die Jacke",
-    "zielona kurtka": "eine grüne Jacke",
-    "rękawiczki": "die Handschuhe",
-    "kolorowe rękawiczki": "bunte Handschuhe",
-    "spodnie": "die Hose",
-    "jasne spodnie": "eine helle Hose",
-    "pulower": "der Pullover",
-    "żółty pulower": "ein gelber Pullover",
-    "buty": "die Schuhe",
-    "eleganckie buty": "elegante Schuhe",
-    "t-shirt": "das T-Shirt",
-    "niebieski t-shirt": "ein blaues T-Shirt",
-    "płaszcz": "der Mantel",
-    "elegancki płaszcz": "ein schicker Mantel",
-    "szalik": "der Schal",
-    "czerwony szalik": "ein roter Schal",
-    "jeansy": "die Jeans",
-    "niebieskie jeansy": "eine blaue Jeans",
-    "koszula": "das Hemd",
-    "koszula w kratę": "ein kariertes Hemd",
-    "spódnica": "der Rock",
-    "krótka spódnica": "ein kurzer Rock",
-    "sukienka": "das Kleid",
-    "żółta sukienka": "ein gelbes Kleid",
-    "bluza": "das Sweatshirt",
-    "niebieska bluza": "ein blaues Sweatshirt",
-    "bluzka": "die Bluse",
-    "elegancka bluzka": "eine elegante Bluse",
+    // ===== ZAWODY (BERUFE) =====
+    "adwokat": "der Anwalt, Anwälte",
+    "inżynier budownictwa": "der Bauingenieur, -e",
+    "kierowca autobusu": "der Busfahrer",
+    "konsultantka call-center": "die Callcenteragentin, -nen",
+    "ekspert zabezpieczenia danych": "der Datensicherheitsexperte, -n",
+    "elektryk": "der Elektriker",
+    "strażak": "der Feuerwehrmann; die Feuerwehrleute / Feuerwehrmänner",
+    "dziennikarz": "der Journalist, -en",
+    "prawnik": "der Jurist, -en",
+    "kasjer": "der Kassierer",
+    "animator zabaw dla dzieci": "der Kinderanimateur, -e",
+    "nauczycielka przedszkola": "die Kindergärtnerin, -nen",
+    "pielęgniarka": "die Krankenschwester, -n",
+    "lektor": "der Lektor, -en",
+    "mikrotechn ik": "der Mikrotechniker",
+    "mikrotechniker": "der Mikrotechniker",
+    "policjant": "der Polizist, -en",
+    "prezydent": "der Präsident, -en",
+    "przewodniczka wycieczek": "die Reiseleiterin, -nen",
+    "recepcjonista": "der Rezeptionist, -en",
+    "aktor": "der Schauspieler",
+    "nauczyciel pływania": "der Schwimmlehrer",
+    "kierownik zarządzający dostawami": "der Supply-Chain-Manager",
+    "doradca w branży turystycznej": "der Tourismusberater",
 
-    // ===== PORY ROKU =====
-    "wiosna": "der Frühling",
-    "lato": "der Sommer",
-    "jesień": "der Herbst",
-    "zima": "der Winter",
+    // ===== CZASOWNIKI (VERBEN) =====
+    "wykonywać zawód": "einen Beruf ausüben",
+    "doradzać": "beraten (+ Akk.)",
+    "opiekować się": "betreuen (+ Akk.)",
+    "ubiegać się o": "sich bewerben um (+ Akk.)",
+    "wnosić": "einlegen",
+    "polecać": "empfehlen",
+    "decydować się": "sich entscheiden",
+    "decydować (się)": "sich entscheiden",
+    "dowiedzieć się o": "über etwas erfahren (+ Akk.)",
+    "podążać": "folgen",
+    "śledzić za kimś": "folgen",
+    "podnosić": "heben",
+    "przypinać": "heften",
+    "walczyć": "kämpfen",
+    "rozwiązywać": "lösen",
+    "wyszukiwać w internecie": "im Internet recherchieren",
+    "zam ykać": "schließen",
+    "zamykać": "schließen",
+    "chronić": "schützen",
+    "wtykać": "stecken",
+    "wkładać": "stecken",
+    "zszywać zszywaczem": "tackern",
+    "zastanawiać się": "überlegen",
+    "poprawiać": "verbessern",
+    "polepszać": "verbessern",
+    "bronić": "verteidigen",
+    "wykorzystywać": "verwenden",
+    "stosować": "verwenden",
 
-    // ===== ZWROTY SKLEPOWE / ZAKUPY I OPIS OBRAZKA =====
-    "ile to kosztuje": "Wie viel kostet das?",
-    "co mogę dla ciebie zrobić?": "Was kann ich für dich tun?",
-    "czy mogę to przymierzyć?": "Kann ich das anprobieren?",
-    "gdzie jest przymierzalnia?": "Wo ist die Umkleidekabine?",
-    "jaki to jest rozmiar?": "Welche Größe ist das?",
-    "czy mają to państwo w rozmiarze m?": "Haben Sie das in Größe M?",
-    "czy mają to państwo również w innym kolorze?": "Haben Sie das auch in einer anderen Farbe?",
-    "to jest za duże / za małe": "Das ist zu groß / zu klein.",
-    "to jest za duże": "Das ist zu groß.",
-    "to jest za małe": "Das ist zu klein.",
-    "to na mnie dobrze leży / pasuje mi": "Das passt mir gut.",
-    "pasuje mi": "Das passt mir gut.",
-    "wezmę to": "Ich nehme das.",
-    "tylko się rozglądam, dziękuję!": "Ich schaue mich nur um, danke!",
-    "tylko się rozglądam": "Ich schaue mich nur um.",
-    "czy mogę państwu / panu / pani pomóc?": "Kann ich Ihnen helfen?",
-    "czy mogę panu pomóc?": "Kann ich Ihnen helfen?",
-    "czy mogę pani pomóc?": "Kann ich Ihnen helfen?",
-    "co mogę dla państwa / pana / pani zrobić?": "Was kann ich für Sie tun?",
-    "co mogę dla pana zrobić?": "Was kann ich für Sie tun?",
-    "co mogę dla pani zrobić?": "Was kann ich für Sie tun?",
-    "jakiego rozmiaru pan/pani szuka?": "Welche Größe suchen Sie?",
-    "jaki masz rozmiar?": "Welche Größe hast du?",
-    "jaki kolor pani chce?": "Welche Farbe möchten Sie?",
-    
-    // Słówka z nowego opisu obrazka dodane do słownika:
-    "na zdjęciu widać młodą kobietę w sklepie odzieżowym": "Auf dem Bild sieht man eine junge Frau in einem Bekleidungsgeschäft.",
-    "kobieta ma długie, ciemne włosy i przyjaźnie się uśmiecha": "Sie hat lange, dunkle Haare und lächelt freundlich.",
-    "ma na sobie niebieską bluzkę": "Sie trägt ein blaues Oberteil.",
-    "w ręku trzyma stos ubrań": "In der Hand hält sie einen Stapel Kleidung.",
-    "trzyma również torbę na zakupy": "Außerdem trägt sie eine Einkaufstasche.",
-    "w tle znajdują się wieszaki z wieloma ubraniami": "Im Hintergrund stehen Kleiderständer mit vielen Klamotten."
+    // ===== PRZYMIOTNIKI (ADJEKTIVE) =====
+    "męczący": "anstrengend",
+    "daleki": "fern",
+    "dalekie kraje": "ferne Länder",
+    "niebezpieczny": "gefährlich",
+    "zdenerwowany": "genervt",
+    "dobrze płatny": "gut bezahlt",
+    "źle płatny": "schlecht bezahlt",
+    "chętnie nawiązujący kontakty": "kontaktfreudig",
+    "bezpłatny": "kostenlos",
+    "ustnie": "mündlich",
+    "pisemnie": "schriftlich",
+    "umiejący pracować w zespole": "teamfähig"
 };
 
 let voices = [];
@@ -580,48 +516,6 @@ function playSentence(germanSentence) {
 }
 
 
-const storySteps = [
-    ["Auf dem Bild", "Na obrazku"],
-    ["sieht man", "widać"],
-    ["eine junge Frau", "młodą kobietę"],
-    ["in einem Bekleidungsgeschäft.", "w sklepie odzieżowym."],
-    ["Sie hat", "Ona ma"],
-    ["lange, dunkle Haare", "długie, ciemne włosy"],
-    ["und lächelt freundlich.", "i przyjaźnie się uśmiecha."],
-    ["Sie trägt", "Ona ma na sobie"],
-    ["ein blaues Oberteil.", "niebieską bluzkę."],
-    ["In der Hand", "W ręku"],
-    ["hält sie", "trzyma"],
-    ["einen Stapel Kleidung.", "stos ubrań."],
-    ["Außerdem", "Oprócz tego"],
-    ["trägt sie", "nosi / ma przy sobie"],
-    ["eine Einkaufstasche.", "torbę na zakupy."],
-    ["Im Hintergrund", "W tle"],
-    ["stehen Kleiderständer", "stoją wieszaki na ubrania"],
-    ["mit vielen Klamotten.", "z wieloma ubraniami."]
-];
-let storyIndex = 0;
-
-function renderStoryStep() {
-    document.getElementById("storyGerman").textContent = storySteps[storyIndex][0];
-    document.getElementById("storyPolish").textContent = storySteps[storyIndex][1];
-    document.getElementById("storyProgress").textContent =
-        `Część ${storyIndex + 1} z ${storySteps.length} · Kliknij tekst, aby go usłyszeć`;
-    document.getElementById("storyBack").disabled = storyIndex === 0;
-    document.getElementById("storyNext").textContent =
-        storyIndex === storySteps.length - 1 ? "Od początku ↻" : "Dalej →";
-}
-function playCurrentStoryStep() {
-    speak(storySteps[storyIndex][0]);
-}
-function moveStory(direction) {
-    if (direction === 1 && storyIndex === storySteps.length - 1) storyIndex = 0;
-    else storyIndex = Math.max(0, Math.min(storySteps.length - 1, storyIndex + direction));
-    renderStoryStep();
-    playCurrentStoryStep();
-}
-
-renderStoryStep();
 
 function clearSearch() {
     document.getElementById("searchInput").value = "";
